@@ -1,0 +1,27 @@
+import requests
+
+def get_facebook_profile_pic(username_or_id):
+    url = f"https://graph.facebook.com/{username_or_id}/picture?type=large&redirect=false"
+    
+    try:
+        response = requests.get(url)
+        data = response.json()
+
+        if "data" in data and data["data"]["is_silhouette"] is False:
+            pic_url = data["data"]["url"]
+            print(f"✅ Profile Picture URL: {pic_url}")
+
+            # Download image
+            img_data = requests.get(pic_url).content
+            with open("profile_picture_hd.jpg", "wb") as handler:
+                handler.write(img_data)
+
+            print("✅ HD Profile Picture saved as 'profile_picture_hd.jpg'")
+        else:
+            print("❌ Couldn't fetch HD profile picture (maybe it's private or doesn't exist).")
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+# 🔹 Replace this with the Facebook username or numeric ID
+get_facebook_profile_pic("zuck")  # Example: 'zuck' or '100044382142865'
