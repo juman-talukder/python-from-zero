@@ -1,0 +1,4 @@
+fruits = ("apple","banana","Coconut")
+a , b , c , = fruits
+
+print(f"a for {a}")
